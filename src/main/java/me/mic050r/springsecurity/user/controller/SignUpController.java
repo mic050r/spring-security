@@ -1,0 +1,32 @@
+package me.mic050r.springsecurity.user.controller;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import me.mic050r.springsecurity.user.dto.UserRegisterDTO;
+import me.mic050r.springsecurity.user.service.UserService;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+// 회원가입 controller
+@Controller
+@RequiredArgsConstructor
+@RequestMapping("/signup")
+public class SignUpController {
+    private final UserService userService;
+
+    // return 회원가입 페이지 리소스
+    @GetMapping
+    public String signup() {
+        return "signup";
+    }
+
+    @PostMapping
+    public String signup(@ModelAttribute UserRegisterDTO userDto) {
+        userService.signup(userDto.getUsername(), userDto.getPassword());
+        // 회원가입 후 로그인 페이지로 이동
+        return "redirect:login";
+    }
+}
